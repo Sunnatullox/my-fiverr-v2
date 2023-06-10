@@ -1,0 +1,12 @@
+{
+  "name": "my-fiver",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "if-env TYPE=api && (cd api && npm install) || (cd client && npm install)",
+    "server": "node ./api/index.js",
+    "client": "cd client && npm start"
+  },
+  "dependencies": {
+    "if-env": "^1.0.4"
+  }
+}
