@@ -1,4 +1,3 @@
-import { PrismaClient } from "@prisma/client";
 import asyncHandler from "express-async-handler";
 import WishList from "../models/WishListModel.js";
 import User from "../models/UserModel.js";

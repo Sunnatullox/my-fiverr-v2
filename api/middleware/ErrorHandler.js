@@ -9,11 +9,9 @@ export const notFound = (req, res, next) => {
 // Error Handler
 
 export const errorHandler = (err, req, res, next) => {
-  const statuscode = res.statusCode == 200 ? 500 : res.statusCode;
-  res.status(statuscode);
+  const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
+  res.status(statusCode);
   res.json({
-    status: "fail",
-    message: err?.message,
-    stack: err?.stack,
+    message: err.message,
   });
 };

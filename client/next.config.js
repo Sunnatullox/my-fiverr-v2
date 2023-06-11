@@ -13,7 +13,7 @@ const nextConfig = {
         pathname: "**",
       },
     ],
-      domains: ['localhost'],
+      domains: ['localhost','lh3.googleusercontent.com','graph.facebook.com'],
   },
 };
 

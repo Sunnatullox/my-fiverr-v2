@@ -113,7 +113,6 @@ function CreateGigs() {
     }
   };
 
-  console.log(subCategorys)
 
   const addGig = async (value) => {
     try {

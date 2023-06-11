@@ -8,9 +8,19 @@ import User from "../models/UserModel.js";
 export const signUp = asyncHandler(async (req, res, next) => {
   try {
     const { email, password } = req.body;
-    if (!password) throw new Error("Please enter your password");
-    if (!email) throw new Error("Please enter your email address");
-    const findUser = await User.findOne({ email: email });
+
+    if (!password) {
+      res.status(400);
+      throw new Error("Please enter your password");
+    }
+
+    if (!email) {
+      res.status(400);
+      throw new Error("Please enter your email address");
+    }
+
+    const findUser = await User.findOne({ email });
+
     if (findUser) {
       res.status(400);
       throw new Error("Sorry, email already exists, please try again");
@@ -25,14 +35,20 @@ export const signUp = asyncHandler(async (req, res, next) => {
 
     if (savedUser) {
       const jwtToken = await createToken(savedUser.email, savedUser._id);
-      res.json({
-        user: { id: savedUser._id, email: savedUser.email },
+      res.status(200).json({
+        user: {
+          id: savedUser._id,
+          email: savedUser.email,
+        },
         jwt: jwtToken,
       });
+    } else {
+      res.status(500);
+      throw new Error("Failed to save user");
     }
   } catch (error) {
-    console.log(error);
-    throw new Error("Inter Server Error: " + error);
+    res.status(500);
+    throw new Error("Internal server error");
   }
 });
 
@@ -81,7 +97,8 @@ export const getUserInfo = asyncHandler(async (req, res, next) => {
         fullName: findUser?.fullname,
         description: findUser?.description,
         isProfileInfoSet: findUser?.isProfileInfoSet,
-        orders: findUser?.orders
+        orders: findUser?.orders,
+        OAuth: findUser?.OAuth
       },
     });
   } catch (error) {
@@ -102,7 +119,10 @@ export const setUserInfo = asyncHandler(async (req, res, next) => {
 
     if (userName) {
       const userNameExists = await User.findOne({ username: userName });
-      if (userNameExists && userNameExists._id.toHexString() !== req.user._id.toHexString()) {
+      if (
+        userNameExists &&
+        userNameExists._id.toHexString() !== req.user._id.toHexString()
+      ) {
         return res.status(200).json({ userNameError: true });
       }
       user.username = userName;
@@ -179,5 +199,41 @@ export const setUserImage = asyncHandler(async (req, res, next) => {
   } catch (error) {
     console.log(error);
     throw new Error("Internal server error");
+  }
+});
+
+export const signInGoogleAuth = asyncHandler(async (req, res, next) => {
+  try {
+    const { user } = req.body;
+
+    await User.findOneAndDelete({email:user.email})
+
+    const googleAuth = new User({
+      email: user.email,
+      username: user.firstName,
+      fullname: user.fullName,
+      profileImage: user.photoUrl,
+      isProfileInfoSet: true,
+      OAuth:true
+    });
+    const savedUser = await googleAuth.save();
+    if (savedUser) {
+      const jwtToken = await createToken(savedUser.email, savedUser._id);
+      if(jwtToken)return  res.status(200).json({
+        user: {
+          id: savedUser._id,
+          email: savedUser.email,
+          username: savedUser.username,
+          fullname: savedUser.fullname,
+          image: savedUser.profileImage,
+          isProfileInfoSet: savedUser.isProfileInfoSet,
+          OAuth: savedUser.OAuth
+        },
+        jwt: jwtToken,
+      });
+    }
+  } catch (error) {
+    console.log(error)
+    throw new Error("Internal Server Error.");
   }
 });

@@ -18,7 +18,7 @@ function Details() {
   }, [gigData]);
 
   const [averageRatings, setAverageRatings] = useState("0");
-  
+
   useEffect(() => {
     if (gigData && gigData.reviews?.length) {
       let avgRating = 0;
@@ -37,13 +37,25 @@ function Details() {
           <div className="flex items-center gap-2">
             <div>
               {gigData.createdBy?.profileImage ? (
-                <Image
-                  src={HOST + "/" + gigData.createdBy.profileImage}
-                  alt="profile"
-                  height={30}
-                  width={30}
-                  className="rounded-full"
-                />
+                <>
+                  {gigData.createdBy.OAuth ? (
+                    <Image
+                      src={gigData.createdBy.profileImage}
+                      alt="profile"
+                      height={30}
+                      width={30}
+                      className="rounded-full"
+                    />
+                  ) : (
+                    <Image
+                      src={HOST + "/" + gigData.createdBy.profileImage}
+                      alt="profile"
+                      height={30}
+                      width={30}
+                      className="rounded-full"
+                    />
+                  )}
+                </>
               ) : (
                 <div className="bg-purple-500 h-10 w-10 flex items-center justify-center rounded-full relative">
                   <span className="text-xl text-white">
@@ -72,7 +84,9 @@ function Details() {
                 ))}
               </div>
               <span className="text-yellow-500">{averageRatings}</span>
-              <span className="text-[#27272a]">({gigData.reviews?.length})</span>
+              <span className="text-[#27272a]">
+                ({gigData.reviews?.length})
+              </span>
             </div>
           </div>
           <div className="flex flex-col gap-4">
@@ -107,7 +121,9 @@ function Details() {
               About this gig
             </h3>
             <div>
-              <p dangerouslySetInnerHTML={{__html:gigData.description}}>{}</p>
+              <p dangerouslySetInnerHTML={{ __html: gigData.description }}>
+                {}
+              </p>
             </div>
           </div>
           {/* About the seller */}
@@ -118,13 +134,25 @@ function Details() {
             <div className="flex gap-4">
               <div>
                 {gigData.createdBy.profileImage ? (
-                  <Image
-                    src={HOST + "/" + gigData.createdBy.profileImage}
-                    alt="profile"
-                    height={120}
-                    width={120}
-                    className="rounded-full"
-                  />
+                  <>
+                    {gigData.createdBy.OAuth ? (
+                      <Image
+                        src={gigData.createdBy.profileImage}
+                        alt="profile"
+                        height={100}
+                        width={100}
+                        className="rounded-full"
+                      />
+                    ) : (
+                      <Image
+                        src={HOST + "/" + gigData.createdBy.profileImage}
+                        alt="profile"
+                        height={100}
+                        width={100}
+                        className="rounded-full"
+                      />
+                    )}
+                  </>
                 ) : (
                   <div className="bg-purple-500 h-10 w-10 flex items-center justify-center rounded-full relative">
                     <span className="text-xl text-white">
@@ -135,7 +163,9 @@ function Details() {
               </div>
               <div className="flex flex-col gap-1">
                 <div className="flex gap-2 items-center">
-                  <h4 className="text-xl font-bold italic">{gigData.createdBy.fullname}</h4 >
+                  <h4 className="text-xl font-bold italic">
+                    {gigData.createdBy.fullname}
+                  </h4>
                   <span className="text-[#74767e]">
                     @{gigData.createdBy.username}
                   </span>
@@ -157,7 +187,7 @@ function Details() {
                     ))}
                   </div>
                   <span className="text-yellow-500">
-                    {gigData.averageRating  }
+                    {gigData.averageRating}
                   </span>
                   <span className="text-[#74767e]">
                     ({gigData.totalReviews})

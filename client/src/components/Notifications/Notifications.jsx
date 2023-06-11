@@ -34,7 +34,7 @@ export default function Notifications() {
         type="button"
         ref={container}
       >
-        <span className="relative inline-block mt-1">
+        <span id="dropdownNotification" className="relative inline-block mt-1">
           <BiBell id="dropdownNotification" className="text-[23.5px]" />
           {sellerNotif.length > 0 && (
             <span className="absolute top-0 right-1 inline-block w-2 h-2 transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full"></span>

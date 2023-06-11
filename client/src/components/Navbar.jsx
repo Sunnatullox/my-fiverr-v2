@@ -149,10 +149,17 @@ function Navbar() {
       });
       let projectedUserInfo = { ...user };
       if (user.image) {
-        projectedUserInfo = {
-          ...projectedUserInfo,
-          imageName: HOST + "/" + user.image,
-        };
+        if (user.OAuth) {
+          projectedUserInfo = {
+            ...projectedUserInfo,
+            imageName: user.image,
+          };
+        } else {
+          projectedUserInfo = {
+            ...projectedUserInfo,
+            imageName: HOST + "/" + user.image,
+          };
+        }
       }
       delete projectedUserInfo.image;
       dispatch({
@@ -172,7 +179,7 @@ function Navbar() {
     if (userInfo?.isProfileInfoSet === false) {
       router.push("/profile");
     }
-    if (isSeller) {
+    if (isSeller && userInfo) {
       sillerOrderNotification();
     } else {
       dispatch({ type: reducerCases.GET_SELLER_ORDERSNOTIF, payload: [] });

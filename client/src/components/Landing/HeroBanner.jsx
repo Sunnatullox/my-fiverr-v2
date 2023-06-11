@@ -26,7 +26,7 @@ function HomeBanner({ popularCateg }) {
           loop
           muted
           preload="auto"
-          autoplay="true"
+          {...{autoPlay: true}}
           className="z-0 min-h-[580px] h-full object-cover w-full aspect-video "
           style={{ opacity: 1 }}
         >

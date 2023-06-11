@@ -27,6 +27,10 @@ const userSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  OAuth:{
+    type:Boolean,
+    default: false,
+  },
   gigs: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Gig' }],
   orders: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Order' }],
   reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Review' }],

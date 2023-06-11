@@ -34,7 +34,7 @@ export default function MessageNotif() {
         type="button"
         ref={container}
       >
-        <li id="messageNotification" className="mt-1 cursor-pointer text-[#646464]  font-medium relative inline-block">
+        <span id="messageNotification" className="relative inline-block mt-1">
           <AiOutlineMail id="messageNotification" className="text-[23px]" />
         
           {userMessage.length > 0 && (
@@ -45,7 +45,7 @@ export default function MessageNotif() {
            {userMessage.length}
           </span>
           )}
-        </li>
+        </span>
       </button>
 
       {isOpen && (

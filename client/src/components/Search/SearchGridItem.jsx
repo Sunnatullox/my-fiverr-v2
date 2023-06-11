@@ -128,13 +128,26 @@ function SearchGridItem({ gig }) {
           <div className="flex px-2 items-center gap-2">
             <div>
               {gig.createdBy.profileImage ? (
-                <Image
-                  src={HOST + "/" + gig.createdBy.profileImage}
-                  alt="profile"
-                  height={30}
-                  width={30}
-                  className="rounded-full"
-                />
+                <>
+                {gig.createdBy.OAuth ? (
+                  <Image
+                    src={gig.createdBy.profileImage}
+                    alt="profile"
+                    height={30}
+                    width={30}
+                    className="rounded-full"
+                  />
+                  ): (
+                  <Image
+                    src={HOST + "/" + gig.createdBy.profileImage}
+                    alt="profile"
+                    height={30}
+                    width={30}
+                    className="rounded-full"
+                  />
+
+                )}
+                </>
               ) : (
                 <div className="bg-purple-500 h-7 w-7 flex items-center justify-center rounded-full relative">
                   <span className="text-lg text-white">
